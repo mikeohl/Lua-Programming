@@ -17,23 +17,39 @@ function perm (a)
   -- run the permgen
   local co = coroutine.create(function () permgen(a, n) end)
   return function () -- iterator
-    local code, res = coroutine.resume(co) 
+    local code, res = coroutine.resume(co)
+    print(tostring(co) .. ": " .. coroutine.status(co))
     -- code is any errors
     -- res is arg passed to yield
     return res
   end
+  -- return the function
 end
 
+-- or
+function perm2 (a)
+  local n = #a
+  return coroutine.wrap(function () permgen(a, n) end)
+end
   
-  function printResult (a)
-    for i, v in ipairs(a) do
-      io.write(v, " ")
-    end
-    io.write("\n")
+ 
+function printResult (a)
+  for i, v in ipairs(a) do
+    io.write(v, " ")
   end
-  
-  
-  for p in perm{"a", "b", "c"} do
-    printResult(p)
-  end
+  io.write("\n")
+end
+
+
+for p in perm{"a", "b", "c"} do
+  printResult(p)
+end
+
+--[[
+we turn in into an iterator because it will loop all 
+permutations, and yield to what we want to do.
+We can do anything we want when we get to the base case
+Here we print, but we could do anything in the for and
+that's why it's an iterator
+--]]
   
