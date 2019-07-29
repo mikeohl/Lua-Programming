@@ -40,3 +40,20 @@ print(w.diagonal)
 rawset(w, "diagonal", w.diagonal)
 
 print(rawget(w, "diagonal"))
+
+-- replace default table entry nil with 0
+-- the table name is the key i.e. table: 0x00029938
+local key = {} 
+local mt = {__index = function (t) return t[key] end}
+
+function setDefault (t, d)
+  t[key] = d
+  setmetatable(t, mt)
+end
+
+tab = {x = 10, y = 20}
+print(tab.x, tab.z)
+setDefault(tab, 0)
+print(tab.x, tab.z)
+
+print(key)
