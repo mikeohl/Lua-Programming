@@ -89,4 +89,6 @@ days = readOnly {"Sunday", "Monday", "Tuesday", "Wednesday",
                
 print(days[1])
 
-days[2] = "Noday"
+-- days[2] = "Noday"
+
+for n in pairs(_G) do print(n) end

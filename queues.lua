@@ -43,4 +43,5 @@ Queue.pushright (queue, 21)
 
 print(Queue.popleft(queue))
 print(Queue.popleft(queue))
-print(Queue.popright(queue))
+print(Queue.popright(queue)) -- expect error
+
