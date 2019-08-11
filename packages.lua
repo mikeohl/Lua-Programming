@@ -1,31 +1,36 @@
-complex = {}
+-- sample package or namespace for complex number type
 
-function complex.new (r, i) return {r = r, i = i} end
-
-complex.i = complex.new(0, 1)
-
-
-
-function complex.add (c1, c2)
-  return complex.new(c1.r + c2.r, c1.i + c2.i)
+local function checkComplex (c)
+  if not ((type(c) == "table") and tonumber(c.r) and tonumber(c.i)) then
+    error("bad complex number", 3)
+  end
 end
 
-function complex.sub (c1, c2)
-  return complex.new(c1.r - c2.r, c1.i - c2.i)
+local function new (r, i) return {r = r, i = i} end
+
+local function add (c1, c2)
+  checkComplex(c1); checkComplex(c2)
+  return new(c1.r + c2.r, c1.i + c2.i)
 end
 
-function complex.mul (c1, c2)
-  return complex.new(c1.r*c2.r - c1.i*c2.i, c1.r*c2.i + c1.i*c2.r)
+local function sub (c1, c2)
+  return new(c1.r - c2.r, c1.i - c2.i)
 end
 
-function complex.inv (c)
+local function mul (c1, c2)
+  return new(c1.r*c2.r - c1.i*c2.i, c1.r*c2.i + c1.i*c2.r)
+end
+
+local function inv (c)
   local n = c.r^2 + c.i^2
-  return complex.new(c.r/n, -c.i/n)
+  return new(c.r/n, -c.i/n)
 end
 
 --[[
 return complex
 --]]
+
+-- add(new(4,1), 3)
 
 function printTable (t)
   for k, v in pairs(t) do
@@ -33,4 +38,13 @@ function printTable (t)
   end
 end
 
-printTable(complex.new(4, 24))
+printTable(new(4, 24))
+
+complex = {
+  new = new,
+  add = add,
+  sub = sub,
+  mul = mul,
+  inv = inv,
+  i = new(0,1)
+}
